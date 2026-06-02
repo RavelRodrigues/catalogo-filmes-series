@@ -41,19 +41,32 @@ export default function DetalhesScreen() {
 		}
 	}
 
-	async function excluirFilme() {
-		const confirmado = window.confirm(
+	function excluirFilme() {
+		Alert.alert(
+			"Confirmar Exclusão",
 			"Tem certeza que deseja excluir este filme?",
+			[
+				{
+					text: "Cancelar",
+					style: "cancel",
+				},
+				{
+					text: "Excluir",
+					style: "destructive",
+					onPress: async () => {
+						try {
+							await api.delete(`/filmes/${id}`);
+							router.back();
+						} catch (erro) {
+							console.log("Erro ao excluir:", erro);
+							Alert.alert("Erro", "Não foi possível excluir o filme.");
+						}
+					},
+				},
+			],
 		);
-		if (!confirmado) return;
-
-		try {
-			await api.delete(`/filmes/${id}`);
-			router.back();
-		} catch (erro) {
-			console.log("Erro ao excluir:", erro);
-		}
 	}
+
 	async function toggleFavorito() {
 		if (!filme) return;
 		try {

@@ -6,10 +6,23 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	ScrollView,
+	Alert,
 } from "react-native";
 import { useRouter, useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Dropdown } from "react-native-element-dropdown";
 import api from "@/src/services/api";
+
+const listaGeneros = [
+	{ label: "Ação", value: "Ação" },
+	{ label: "Comédia", value: "Comédia" },
+	{ label: "Drama", value: "Drama" },
+	{ label: "Ficção Científica", value: "Ficção Científica" },
+	{ label: "Terror", value: "Terror" },
+	{ label: "Romance", value: "Romance" },
+	{ label: "Animação", value: "Animação" },
+	{ label: "Documentário", value: "Documentário" },
+];
 
 export default function AdicionarScreen() {
 	const [titulo, setTitulo] = useState("");
@@ -31,7 +44,23 @@ export default function AdicionarScreen() {
 
 	async function salvarFilme() {
 		if (!titulo || !genero || !ano || !capa) {
-			window.alert("Preencha todos os campos.");
+			Alert.alert("Campos Vazios", "Por favor, preencha todos os campos.");
+			return;
+		}
+
+		if (!/^\d{4}$/.test(ano)) {
+			Alert.alert(
+				"Formato Inválido",
+				"O campo Ano deve conter exatamente 4 números.",
+			);
+			return;
+		}
+
+		const anoNumero = Number(ano);
+		const anoAtual = new Date().getFullYear();
+
+		if (anoNumero < 1888 || anoNumero > anoAtual) {
+			Alert.alert("Ano Inválido", `O ano deve ser entre 1888 e ${anoAtual}.`);
 			return;
 		}
 
@@ -39,7 +68,7 @@ export default function AdicionarScreen() {
 			await api.post("/filmes", {
 				titulo,
 				genero,
-				ano: Number(ano),
+				ano: anoNumero,
 				capa,
 				favorito: false,
 			});
@@ -51,18 +80,19 @@ export default function AdicionarScreen() {
 			}, 1500);
 		} catch (erro) {
 			console.log("Erro ao salvar:", erro);
+			Alert.alert("Erro", "Não foi possível salvar o filme.");
 		}
 	}
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollView contentContainerStyle={styles.scroll}>
-				<Text style={styles.headerTitle}>🎬 Adicionar Filme</Text>
+				<Text style={styles.headerTitle}>Adicionar Filme</Text>
 
 				{sucesso && (
 					<View style={styles.sucessoBox}>
 						<Text style={styles.sucessoTexto}>
-							✅ Filme adicionado com sucesso!
+							Filme adicionado com sucesso!
 						</Text>
 					</View>
 				)}
@@ -77,12 +107,23 @@ export default function AdicionarScreen() {
 				/>
 
 				<Text style={styles.label}>Gênero</Text>
-				<TextInput
-					style={styles.input}
+				<Dropdown
+					style={styles.dropdown}
+					placeholderStyle={styles.placeholderStyle}
+					selectedTextStyle={styles.selectedTextStyle}
+					containerStyle={styles.dropdownContainer}
+					itemContainerStyle={styles.dropdownItem}
+					itemTextStyle={styles.dropdownItemText}
+					activeColor="#2a2a2a"
+					data={listaGeneros}
+					maxHeight={300}
+					labelField="label"
+					valueField="value"
+					placeholder="Selecione um gênero"
 					value={genero}
-					onChangeText={setGenero}
-					placeholder="Ex: Ficção Científica"
-					placeholderTextColor="#555"
+					onChange={(item: { label: string; value: string }) => {
+						setGenero(item.value);
+					}}
 				/>
 
 				<Text style={styles.label}>Ano</Text>
@@ -141,6 +182,36 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		borderWidth: 1,
 		borderColor: "#2a2a2a",
+	},
+	dropdown: {
+		backgroundColor: "#1a1a1a",
+		borderRadius: 14,
+		padding: 16,
+		marginBottom: 16,
+		borderWidth: 1,
+		borderColor: "#2a2a2a",
+		height: 58,
+	},
+	placeholderStyle: {
+		color: "#555",
+		fontSize: 15,
+	},
+	selectedTextStyle: {
+		color: "#fff",
+		fontSize: 15,
+	},
+	dropdownContainer: {
+		backgroundColor: "#1a1a1a",
+		borderRadius: 14,
+		borderWidth: 1,
+		borderColor: "#2a2a2a",
+	},
+	dropdownItem: {
+		padding: 16,
+	},
+	dropdownItemText: {
+		color: "#fff",
+		fontSize: 15,
 	},
 	botao: {
 		backgroundColor: "#e50914",

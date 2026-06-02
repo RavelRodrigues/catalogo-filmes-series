@@ -7,14 +7,6 @@
       "ano": 2008,
       "capa": "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",
       "favorito": true
-    },
-    {
-      "titulo": "Alerta apocalipse",
-      "genero": "Comédia",
-      "ano": 2026,
-      "capa": "https://midias.imagemfilmes.com.br/capas/566b4cd6-2e64-4e3c-8984-261a6d7bb559_m.jpg?2026-01-16T16:59:50.560116",
-      "favorito": false,
-      "id": "WSYUffzF4us"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

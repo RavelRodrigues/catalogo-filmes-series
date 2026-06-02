@@ -83,7 +83,7 @@ export default function CatalogoScreen() {
 			{/* HEADER */}
 			<View style={styles.header}>
 				<View>
-					<Text style={styles.headerTitle}>🎬 Catálogo</Text>
+					<Text style={styles.headerTitle}>Catálogo</Text>
 					<Text style={styles.contador}>
 						{filmesFiltrados.length}{" "}
 						{filmesFiltrados.length === 1 ? "filme" : "filmes"}
@@ -151,7 +151,6 @@ export default function CatalogoScreen() {
 					data={filmesFiltrados}
 					keyExtractor={(item) => String(item.id)}
 					contentContainerStyle={styles.lista}
-					// Substitui o renderItem da FlatList por esse:
 					renderItem={({ item }) => (
 						<TouchableOpacity
 							style={styles.card}
