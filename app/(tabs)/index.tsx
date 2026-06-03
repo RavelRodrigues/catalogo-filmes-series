@@ -80,104 +80,103 @@ export default function CatalogoScreen() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			{/* HEADER */}
-			<View style={styles.header}>
-				<View>
-					<Text style={styles.headerTitle}>Catálogo</Text>
-					<Text style={styles.contador}>
-						{filmesFiltrados.length}{" "}
-						{filmesFiltrados.length === 1 ? "filme" : "filmes"}
-					</Text>
-				</View>
-			</View>
-
-			{/* BUSCA */}
-			<View style={styles.buscaContainer}>
-				<Ionicons
-					name="search-outline"
-					size={18}
-					color="#555"
-					style={styles.buscaIcone}
-				/>
-				<TextInput
-					style={styles.buscaInput}
-					value={busca}
-					onChangeText={setBusca}
-					placeholder="Buscar por título..."
-					placeholderTextColor="#555"
-				/>
-				{busca.length > 0 && (
-					<TouchableOpacity onPress={() => setBusca("")}>
-						<Ionicons name="close-circle" size={18} color="#555" />
-					</TouchableOpacity>
-				)}
-			</View>
-
-			{/* FILTRO POR GÊNERO */}
 			<FlatList
-				data={generos}
-				horizontal
-				keyExtractor={(item) => item}
-				showsHorizontalScrollIndicator={false}
-				contentContainerStyle={styles.filtroLista}
+				data={filmesFiltrados}
+				keyExtractor={(item) => String(item.id)}
+				contentContainerStyle={styles.lista}
+				ListHeaderComponent={
+					<>
+						{/* HEADER */}
+						<View style={styles.header}>
+							<Text style={styles.headerTitle}>Catálogo</Text>
+							<Text style={styles.contador}>
+								{filmesFiltrados.length}{" "}
+								{filmesFiltrados.length === 1 ? "filme/série" : "filmes/séries"}
+							</Text>
+						</View>
+
+						{/* BUSCA */}
+						<View style={styles.buscaContainer}>
+							<Ionicons
+								name="search-outline"
+								size={18}
+								color="#555"
+								style={styles.buscaIcone}
+							/>
+							<TextInput
+								style={styles.buscaInput}
+								value={busca}
+								onChangeText={setBusca}
+								placeholder="Buscar por título..."
+								placeholderTextColor="#555"
+							/>
+							{busca.length > 0 && (
+								<TouchableOpacity onPress={() => setBusca("")}>
+									<Ionicons name="close-circle" size={18} color="#555" />
+								</TouchableOpacity>
+							)}
+						</View>
+
+						{/* FILTRO POR GÊNERO */}
+						<FlatList
+							data={generos}
+							horizontal
+							keyExtractor={(item) => item}
+							showsHorizontalScrollIndicator={false}
+							contentContainerStyle={styles.filtroLista}
+							renderItem={({ item }) => (
+								<TouchableOpacity
+									style={[
+										styles.filtroBotao,
+										generoAtivo === item && styles.filtroBotaoAtivo,
+									]}
+									onPress={() => setGeneroAtivo(item)}
+								>
+									<Text
+										style={[
+											styles.filtroTexto,
+											generoAtivo === item && styles.filtroTextoAtivo,
+										]}
+									>
+										{item}
+									</Text>
+								</TouchableOpacity>
+							)}
+						/>
+					</>
+				}
+				ListEmptyComponent={
+					<View style={styles.vazio}>
+						<Ionicons name="film-outline" size={48} color="#333" />
+						<Text style={styles.vazioTexto}>Nenhum filme encontrado.</Text>
+					</View>
+				}
 				renderItem={({ item }) => (
 					<TouchableOpacity
-						style={[
-							styles.filtroBotao,
-							generoAtivo === item && styles.filtroBotaoAtivo,
-						]}
-						onPress={() => setGeneroAtivo(item)}
+						style={styles.card}
+						onPress={() =>
+							router.push({ pathname: "/detalhes", params: { id: item.id } })
+						}
 					>
-						<Text
-							style={[
-								styles.filtroTexto,
-								generoAtivo === item && styles.filtroTextoAtivo,
-							]}
+						<Image source={{ uri: item.capa }} style={styles.capa} />
+						<View style={styles.info}>
+							<Text style={styles.titulo}>{item.titulo}</Text>
+							<Text style={styles.genero}>{item.genero}</Text>
+							<Text style={styles.ano}>{item.ano}</Text>
+						</View>
+						<TouchableOpacity
+							style={styles.estrelaBotao}
+							onPress={() => toggleFavorito(item)}
 						>
-							{item}
-						</Text>
+							<Ionicons
+								name={item.favorito ? "star" : "star-outline"}
+								size={22}
+								color="#f5a623"
+							/>
+						</TouchableOpacity>
 					</TouchableOpacity>
 				)}
 			/>
-
-			{/* LISTA */}
-			{filmesFiltrados.length === 0 ? (
-				<View style={styles.vazio}>
-					<Ionicons name="film-outline" size={48} color="#333" />
-					<Text style={styles.vazioTexto}>Nenhum filme encontrado.</Text>
-				</View>
-			) : (
-				<FlatList
-					data={filmesFiltrados}
-					keyExtractor={(item) => String(item.id)}
-					contentContainerStyle={styles.lista}
-					renderItem={({ item }) => (
-						<TouchableOpacity
-							style={styles.card}
-							onPress={() =>
-								router.push({ pathname: "/detalhes", params: { id: item.id } })
-							}
-						>
-							<Image source={{ uri: item.capa }} style={styles.capa} />
-							<View style={styles.info}>
-								<Text style={styles.titulo}>{item.titulo}</Text>
-								<Text style={styles.genero}>{item.genero}</Text>
-								<Text style={styles.ano}>{item.ano}</Text>
-							</View>
-							<TouchableOpacity
-								style={styles.estrelaBotao}
-								onPress={() => toggleFavorito(item)}
-							>
-								<Ionicons
-									name={item.favorito ? "star" : "star-outline"}
-									size={22}
-									color="#f5a623"
-								/>
-							</TouchableOpacity>
-						</TouchableOpacity>
-					)}
-				/>
-			)}
 		</SafeAreaView>
 	);
 }
@@ -215,7 +214,12 @@ const styles = StyleSheet.create({
 		paddingVertical: 12,
 		fontSize: 15,
 	},
-	filtroLista: { paddingHorizontal: 20, marginBottom: 12, gap: 8 },
+	filtroLista: {
+		paddingHorizontal: 20,
+		marginBottom: 12,
+		gap: 8,
+		alignItems: "center",
+	},
 	filtroBotao: {
 		paddingHorizontal: 16,
 		paddingVertical: 8,
@@ -223,6 +227,9 @@ const styles = StyleSheet.create({
 		backgroundColor: "#1a1a1a",
 		borderWidth: 1,
 		borderColor: "#2a2a2a",
+		height: 36,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	filtroBotaoAtivo: {
 		backgroundColor: "#e50914",

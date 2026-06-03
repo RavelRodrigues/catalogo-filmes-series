@@ -7,6 +7,54 @@
       "ano": 2008,
       "capa": "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",
       "favorito": true
+    },
+    {
+      "titulo": "Alerta Apocalipse",
+      "genero": "Comédia",
+      "ano": 2026,
+      "capa": "https://midias.imagemfilmes.com.br/capas/566b4cd6-2e64-4e3c-8984-261a6d7bb559_m.jpg?2026-01-16T16:59:50.560116",
+      "favorito": true,
+      "id": "yxiOnc_UPfE"
+    },
+    {
+      "titulo": "Duna",
+      "genero": "Ação",
+      "ano": 2025,
+      "capa": "https://i.pinimg.com/236x/cc/02/e3/cc02e351dccb005fe40e5b5d50ab2c55.jpg",
+      "favorito": true,
+      "id": "BLJemY0wzjI"
+    },
+    {
+      "titulo": "Assassinos da Lua das Flores",
+      "genero": "Drama",
+      "ano": 2026,
+      "capa": "https://raioclick.com.br/wp-content/uploads/2024/01/Assassinos-da-Lua-das-Flores-Raio-Click.webp",
+      "favorito": false,
+      "id": "QISimoGw08c"
+    },
+    {
+      "titulo": "DeadPool",
+      "genero": "Comédia",
+      "ano": 2024,
+      "capa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy4Cbmhp8278lydXbIWtLzucWIDqEnx1jaGA&s",
+      "favorito": false,
+      "id": "WoRsqOQaNno"
+    },
+    {
+      "titulo": "Vingadora",
+      "genero": "Ação",
+      "ano": 2026,
+      "capa": "https://midias.imagemfilmes.com.br/capas/63bd29b4-91e3-4bc4-86b3-92c5f4a4846f_m.jpg?2026-03-19T11:47:44.766659",
+      "favorito": false,
+      "id": "h5sKl6QNWpI"
+    },
+    {
+      "titulo": "Troll",
+      "genero": "Ação",
+      "ano": 2025,
+      "capa": "https://preview.redd.it/algumas-capas-de-filmes-da-if-baseado-nos-%C3%BAltimos-dias-e-v0-ixbcv621k2ga1.jpg?width=640&crop=smart&auto=webp&s=50e5901ae5102fad9eec6328f80b8281d90d89d8",
+      "favorito": true,
+      "id": "dYYcT7Ph2pM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

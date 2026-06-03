@@ -87,7 +87,7 @@ export default function AdicionarScreen() {
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollView contentContainerStyle={styles.scroll}>
-				<Text style={styles.headerTitle}>Adicionar Filme</Text>
+				<Text style={styles.headerTitle}>Adicionar Filme/Série</Text>
 
 				{sucesso && (
 					<View style={styles.sucessoBox}>
@@ -146,7 +146,7 @@ export default function AdicionarScreen() {
 				/>
 
 				<TouchableOpacity style={styles.botao} onPress={salvarFilme}>
-					<Text style={styles.botaoTexto}>Salvar Filme</Text>
+					<Text style={styles.botaoTexto}>Salvar</Text>
 				</TouchableOpacity>
 			</ScrollView>
 		</SafeAreaView>

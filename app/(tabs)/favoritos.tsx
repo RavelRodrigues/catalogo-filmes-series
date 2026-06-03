@@ -69,7 +69,7 @@ export default function FavoritosScreen() {
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.header}>
-				<Text style={styles.headerTitle}>⭐ Favoritos</Text>
+				<Text style={styles.headerTitle}>Favoritos</Text>
 			</View>
 			<FlatList
 				data={favoritos}
